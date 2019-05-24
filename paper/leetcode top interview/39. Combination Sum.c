@@ -13,7 +13,7 @@ int cmp(const void *a, const void *b)
 
 void combination(int *nums, int n, int target, int **result, int *cnt, int **colsize, int *tmp, int m)
 {
-    int i, j, t[1024*100];
+    int i, j;
     
     for(i=0; i<n; ++i)
     {
@@ -25,19 +25,14 @@ void combination(int *nums, int n, int target, int **result, int *cnt, int **col
         {
             if(target-nums[i] == 0)
             {
-                memcpy(t, tmp, sizeof(int)*m);
-                qsort(t, m, sizeof(int), cmp);
-                for(j=0; j<*cnt; ++j)
+                for(j=0; j<m-1; ++j)
                 {
-                    if((*colsize)[j] == m)
-                    {
-                        if(memcmp(result[j], t, sizeof(int)*m) == 0){
-                            return;
-                        }
+                    if(tmp[j] > tmp[j+1]){
+                        return;
                     }
                 }
                 result[*cnt]=(int*)malloc(sizeof(int)*m);
-                memcpy(result[*cnt], t, sizeof(int)*m);
+                memcpy(result[*cnt], tmp, sizeof(int)*m);
                 (*colsize)[*cnt]=m;
                 (*cnt)++;
             }
